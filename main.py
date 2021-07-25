@@ -3,22 +3,34 @@ import time
 import pyautogui
 from datetime import datetime
 from selenium.webdriver.common.keys import Keys
+from selenium import webdriver
 PATH  = 'C:\Program Files (x86)\chromedriver.exe'
 
 def launchSelenium():
    driver = webdriver.Chrome(PATH)
    driver.get('https://www.winamax.fr/paris-sportifs/match/28200766')#https://www.winamax.fr/paris-sportifs/match/28200766  #https://www.winamax.fr/paris-sportifs/match/27471666
    driver.maximize_window()
-   while True:
-      driver.get('https://www.winamax.fr/paris-sportifs/match/27471666')
-      driver.maximize_window()
-      time.sleep(getCurrentSeconds())
-      buttonScoreExact = driver.fignd_element_by_xpath(
-         '//*[@id="app"]/div/div[2]/div/div[2]/div/div[4]/div[1]/div/div[1]/div/div[5]/span/span[1]')
-      buttonScoreExact.click()
-      buttonScoreExact.location_once_scrolled_into_view
-      time.sleep(2)
-      takeScreenshot(driver)
+   driver.execute_script("window.open('about:blank','secondtab');")
+   driver.switch_to.window("secondtab")
+   driver.get('https://www.winamax.fr/paris-sportifs/match/27471666')
+   print("come here!")
+   time.sleep(10)
+   #driver.navigate.refresh()
+
+
+   # driver = webdriver.Chrome(PATH)
+   # driver.get('https://www.winamax.fr/paris-sportifs/match/28200766')#https://www.winamax.fr/paris-sportifs/match/28200766  #https://www.winamax.fr/paris-sportifs/match/27471666
+   # driver.maximize_window()
+   # while True:
+   #    driver.get('https://www.winamax.fr/paris-sportifs/match/27471666')
+   #    driver.maximize_window()
+   #    time.sleep(getCurrentSeconds())
+   #    buttonScoreExact = driver.fignd_element_by_xpath(
+   #       '//*[@id="app"]/div/div[2]/div/div[2]/div/div[4]/div[1]/div/div[1]/div/div[5]/span/span[1]')
+   #    buttonScoreExact.click()
+   #    buttonScoreExact.location_once_scrolled_into_view
+   #    time.sleep(2)
+   #    takeScreenshot(driver)
 
 
 
