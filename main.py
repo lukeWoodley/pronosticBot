@@ -51,7 +51,7 @@ def openAllTabs(driver):
             driver.get(row[1])
         i = i + 1
 
-    while True:
+    while notFinished():
         driver.switch_to.window(driver.window_handles[0])
         time.sleep(5)
         indexTab = 0
@@ -64,6 +64,8 @@ def openAllTabs(driver):
             takeScreenshot(row[0])
             indexTab = indexTab + 1
         time.sleep(getCurrentSeconds())
+
+
 
 
 def goToScoreExact(driver, row):
@@ -96,9 +98,28 @@ def createDirectory(folderName):
     except OSError as error:
         pass
 
+def notFinished():
+    now = datetime.now()
+    current_time = int(now.strftime("%H"))
+    if current_time != 7:
+        return True
+    else:
+        quit()
+        return False
+
+def shouldStart():
+    now = datetime.now()
+    current_time = int(now.strftime("%H"))
+    if current_time != 1:
+        return False
+    return True
 
 if __name__ == '__main__':
-    launchSelenium()
+    while True:
+        time.sleep(60)
+        if shouldStart():
+            launchSelenium()
+
 
 
 
