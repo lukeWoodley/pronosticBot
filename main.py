@@ -6,7 +6,6 @@ from selenium.webdriver.common.keys import Keys
 from selenium import webdriver
 import os
 
-
 PATH  = 'C:\Program Files (x86)\chromedriver.exe'
 xPath = '//*[@id="app"]/div/div[2]/div/div[2]/div/div[4]/div[1]/div/div[1]/div/div[3]/span/span[1]'
 arrayMatchAndLink = [
@@ -20,10 +19,10 @@ arrayMatchAndLink = [
 
 
 def launchSelenium():
-   driver = webdriver.Chrome(PATH)
-   driver.maximize_window()
-   time.sleep(2)
-   openAllTabs(driver)
+    driver = webdriver.Chrome(PATH)
+    driver.maximize_window()
+    time.sleep(2)
+    openAllTabs(driver)
 
 
 def openAllTabs(driver):
