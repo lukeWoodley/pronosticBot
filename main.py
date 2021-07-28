@@ -13,18 +13,24 @@ xPath2 = '//*[@id="app"]/div/div[2]/div/div[2]/div/div[4]/div[1]/div/div[1]/div/
 xPath3 = '//*[@id="app"]/div/div[2]/div/div[2]/div/div[4]/div[1]/div/div[1]/div/div[5]/span/span[1]'
 
 
+expandButtonXPath = '//*[@id="app"]/div/div[2]/div/div[2]/div/div[4]/div[2]/div[1]/div[2]/div[3]/div/div[1]'
+titleScoreExactXPath = '//*[@id="app"]/div/div[2]/div/div[2]/div/div[4]/div[2]/div[1]/div[1]/div[1]'
+
+startTimeinH = 20
+finishTimeinH = 22
+
 
 arrayMatchAndLink = [
-                    ['Audax Italiano vs Everton',                    'https://www.winamax.fr/paris-sportifs/match/27207560', xPath2],
-                    ['Vikingur Gota vs Runavik',                     'https://www.winamax.fr/paris-sportifs/match/25853620', xPath2],
-                    ['07 Vestur Sorvagur vs Streymur',               'https://www.winamax.fr/paris-sportifs/match/25853616', xPath],
-                    ['La Equidad vs Pasto',                          'https://www.winamax.fr/paris-sportifs/match/28224728', xPath3],
-                    ['Huracan vs Colon De Santa Fe',                 'https://www.winamax.fr/paris-sportifs/match/27959198', xPath2],
-                    ['Aldosivi vs Racing Club',                      'https://www.winamax.fr/paris-sportifs/match/27959186', xPath2]
+                    ['Cobresal vs CD Melipilla',              'https://www.winamax.fr/paris-sportifs/match/27207570', xPath2],
+                    ['Union Espanola vs Huachipato',          'https://www.winamax.fr/paris-sportifs/match/27207564', xPath2],
+                    ['OHiggins vs Curico Unido',              'https://www.winamax.fr/paris-sportifs/match/27207568', xPath2],
+                    ['Deportes Union La Calera vs Palestino', 'https://www.winamax.fr/paris-sportifs/match/27207562', xPath2],
+                    ['Haugesund vs Stromsgodset',             'https://www.winamax.fr/paris-sportifs/match/26692210', xPath3],
+                    ['Lillestrom vs Saprpsborg 8',            'https://www.winamax.fr/paris-sportifs/match/26692332', xPath3],
+                    ['Odd vs Sandefjord',                     'https://www.winamax.fr/paris-sportifs/match/28265530', xPath3],
+                    ['Mjondalen vs Stabaek',                  'https://www.winamax.fr/paris-sportifs/match/26692214', xPath3]
 
 ]
-
-
 
 
 
@@ -53,14 +59,14 @@ def openAllTabs(driver):
 
     while notFinished():
         driver.switch_to.window(driver.window_handles[0])
-        time.sleep(5)
+        time.sleep(3)
         indexTab = 0
         for row in arrayMatchAndLink:
             driver.switch_to.window(driver.window_handles[indexTab])
             driver.refresh()
-            time.sleep(3)
+            time.sleep(5)
             driver = goToScoreExact(driver, row)
-            time.sleep(0.2)
+            time.sleep(0.7)
             takeScreenshot(row[0])
             indexTab = indexTab + 1
         time.sleep(getCurrentSeconds())
@@ -72,6 +78,12 @@ def goToScoreExact(driver, row):
     buttonScoreExact = driver.find_element_by_xpath(row[2])
     buttonScoreExact.click()
     buttonScoreExact.location_once_scrolled_into_view
+    time.sleep(0.3)
+    expandButton = driver.find_element_by_xpath(expandButtonXPath)
+    expandButton.click()
+    driver.find_element_by_xpath(titleScoreExactXPath).location_once_scrolled_into_view
+    time.sleep(0.3)
+
     return driver
 
 
@@ -101,25 +113,26 @@ def createDirectory(folderName):
 def notFinished():
     now = datetime.now()
     current_time = int(now.strftime("%H"))
-    if current_time != 7:
+    if current_time != finishTimeinH:
         return True
     else:
+        os.system("shutdown /s /t 1")
         quit()
         return False
 
 def shouldStart():
     now = datetime.now()
     current_time = int(now.strftime("%H"))
-    if current_time != 1:
+    if current_time != startTimeinH:
         return False
     return True
 
 if __name__ == '__main__':
     while True:
-        time.sleep(60)
         if shouldStart():
             launchSelenium()
-
+        time.sleep(60)
+        print("not time yet")
 
 
 
