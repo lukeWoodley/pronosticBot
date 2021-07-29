@@ -8,27 +8,39 @@ import os
 
 PATH  = 'C:\Program Files (x86)\chromedriver.exe'
 
-xPath = '//*[@id="app"]/div/div[2]/div/div[2]/div/div[4]/div[1]/div/div[1]/div/div[3]/span/span[1]'
-xPath2 = '//*[@id="app"]/div/div[2]/div/div[2]/div/div[4]/div[1]/div/div[1]/div/div[4]/span/span[1]'
-xPath3 = '//*[@id="app"]/div/div[2]/div/div[2]/div/div[4]/div[1]/div/div[1]/div/div[5]/span/span[1]'
-
+xPath = '//*[@id="app"]/div/div[2]/div/div[2]/div/div[4]/div[1]/div/div[1]/div/div[3]/span/span[1]' # button no 3
+xPath2 = '//*[@id="app"]/div/div[2]/div/div[2]/div/div[4]/div[1]/div/div[1]/div/div[4]/span/span[1]' #button no 4
+xPath3 = '//*[@id="app"]/div/div[2]/div/div[2]/div/div[4]/div[1]/div/div[1]/div/div[5]/span/span[1]' #button no 5
+xPathArray = [xPath, xPath2, xPath3]
 
 expandButtonXPath = '//*[@id="app"]/div/div[2]/div/div[2]/div/div[4]/div[2]/div[1]/div[2]/div[3]/div/div[1]'
 titleScoreExactXPath = '//*[@id="app"]/div/div[2]/div/div[2]/div/div[4]/div[2]/div[1]/div[1]/div[1]'
 
-startTimeinH = 20
-finishTimeinH = 22
+startTimeinH = 23
+finishTimeinH = 7
+
+
+# arrayMatchAndLink = [
+#                     ['Central Cordoba Sde vs CA Talleres',              'https://www.winamax.fr/paris-sportifs/match/27959192', xPath2],
+#                     ['Arsenal Sarandi vs Argentinos Juniors',          'https://www.winamax.fr/paris-sportifs/match/27959188', xPath2],
+#                     ['Gimnasia La Plata vs Rosario Central',              'https://www.winamax.fr/paris-sportifs/match/27959194', xPath2],
+#                     ['Newells Old Boys vs Estudiantes', 'https://www.winamax.fr/paris-sportifs/match/27959204', xPath2],
+#
+#                     ['Deportes Antofagasta vs Universidad Catolica',             'https://www.winamax.fr/paris-sportifs/match/27207572', xPath2],
+#                     ['Universidad De Chile vs Nublense',                     'https://www.winamax.fr/paris-sportifs/match/27207566', xPath2]
+#
+# ]
 
 
 arrayMatchAndLink = [
-                    ['Cobresal vs CD Melipilla',              'https://www.winamax.fr/paris-sportifs/match/27207570', xPath2],
-                    ['Union Espanola vs Huachipato',          'https://www.winamax.fr/paris-sportifs/match/27207564', xPath2],
-                    ['OHiggins vs Curico Unido',              'https://www.winamax.fr/paris-sportifs/match/27207568', xPath2],
-                    ['Deportes Union La Calera vs Palestino', 'https://www.winamax.fr/paris-sportifs/match/27207562', xPath2],
-                    ['Haugesund vs Stromsgodset',             'https://www.winamax.fr/paris-sportifs/match/26692210', xPath3],
-                    ['Lillestrom vs Saprpsborg 8',            'https://www.winamax.fr/paris-sportifs/match/26692332', xPath3],
-                    ['Odd vs Sandefjord',                     'https://www.winamax.fr/paris-sportifs/match/28265530', xPath3],
-                    ['Mjondalen vs Stabaek',                  'https://www.winamax.fr/paris-sportifs/match/26692214', xPath3]
+                    ['Central Cordoba Sde vs CA Talleres',              'https://www.winamax.fr/paris-sportifs/match/27959192'],
+                    ['Arsenal Sarandi vs Argentinos Juniors',          'https://www.winamax.fr/paris-sportifs/match/27959188'],
+                    ['Gimnasia La Plata vs Rosario Central',              'https://www.winamax.fr/paris-sportifs/match/27959194'],
+                    ['Newells Old Boys vs Estudiantes', 'https://www.winamax.fr/paris-sportifs/match/27959204'],
+
+                    ['Deportes Antofagasta vs Universidad Catolica',             'https://www.winamax.fr/paris-sportifs/match/27207572'],
+                    ['Universidad De Chile vs Nublense',                     'https://www.winamax.fr/paris-sportifs/match/27207566']
+
 
 ]
 
@@ -71,13 +83,12 @@ def openAllTabs(driver):
             indexTab = indexTab + 1
         time.sleep(getCurrentSeconds())
 
-
+    # buttonScoreExact = driver.find_element_by_xpath(row[2])
+    # buttonScoreExact.click()
 
 
 def goToScoreExact(driver, row):
-    buttonScoreExact = driver.find_element_by_xpath(row[2])
-    buttonScoreExact.click()
-    buttonScoreExact.location_once_scrolled_into_view
+    clickButton(driver, row)
     time.sleep(0.3)
     expandButton = driver.find_element_by_xpath(expandButtonXPath)
     expandButton.click()
@@ -85,6 +96,20 @@ def goToScoreExact(driver, row):
     time.sleep(0.3)
 
     return driver
+
+def clickButton(driver, row):
+    compteur = 0
+    for xpath in xPathArray:
+        try:
+            buttonScoreExact = driver.find_element_by_xpath(xpath)
+            if buttonScoreExact.text == "Score exact":
+                print("test")
+                buttonScoreExact.click()
+                buttonScoreExact.location_once_scrolled_into_view
+                return
+        except Exception:
+            compteur = compteur + 1
+
 
 
 def getCurrentSeconds():
@@ -131,8 +156,7 @@ if __name__ == '__main__':
     while True:
         if shouldStart():
             launchSelenium()
+        print("not time yet...")
         time.sleep(60)
-        print("not time yet")
-
 
 
